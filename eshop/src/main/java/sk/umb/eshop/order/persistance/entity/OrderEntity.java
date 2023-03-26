@@ -2,9 +2,9 @@ package sk.umb.eshop.order.persistance.entity;
 
 import sk.umb.eshop.order.service.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 

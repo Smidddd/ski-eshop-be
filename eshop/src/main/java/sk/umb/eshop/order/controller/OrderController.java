@@ -17,14 +17,13 @@ public class OrderController {
     public List <OrderDetailDTO> listOrders(@RequestParam(required = false) Long orderId){
         System.out.println("List orders called");
 
-        return orderId == null? orderService.getAllOrders()
-                : orderService.searchOrderById(orderId);
+        return orderService.getAllOrders();
     }
     @GetMapping("/api/order/{orderId}")
     public OrderDetailDTO retrieveOrder(@PathVariable Long orderId){
         System.out.println("Details of order called + ");
 
-        return orderService.retrieveOrder(orderId);
+        return orderService.getOrderbyId(orderId);
     }
     @PostMapping("/api/order")
     public Long createOrder(@RequestBody OrderRequestDTO orderRequestDTO){

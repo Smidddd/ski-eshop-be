@@ -13,8 +13,6 @@ import sk.umb.eshop.order.persistance.repository.OrderRepository;
 
 @Service
 public class OrderService {
-    private final AtomicLong lastIndex = new AtomicLong(0);
-    private final Map<Long, OrderDetailDTO> orderDatabase = new HashMap();
     private final OrderRepository orderRepository;
 
     public OrderService(OrderRepository orderRepository) {
@@ -22,7 +20,11 @@ public class OrderService {
     }
 
     public List<OrderDetailDTO> getAllOrders() {
-        return mapToDto((List<OrderEntity>) orderRepository.findAll());
+        return mapToDto(orderRepository.findAll());
+    }
+    public OrderDetailDTO getOrderbyId(Long orderId) {
+        validateOrderExists(orderId);
+        return mapToDto(orderRepository.findById(orderId).get());
     }
     private List<OrderDetailDTO> mapToDto(List<OrderEntity> orderEntities) {
         List<OrderDetailDTO> dtos = new ArrayList<>();
@@ -38,21 +40,18 @@ public class OrderService {
 
         return dtos;
     }
+    private OrderDetailDTO mapToDto(OrderEntity productsEntity) {
+        OrderDetailDTO dto = new OrderDetailDTO();
 
+        dto.setOrderId(productsEntity.getOrderId());
+        dto.setCustomer_ID(productsEntity.getCustomer_ID());
+        dto.setType(productsEntity.getType());
+        dto.setOrdered(productsEntity.isOrdered());
 
-
-    public List<OrderDetailDTO> searchOrderById(Long orderId) {
-        return orderDatabase.values().stream()
-                .filter(dto -> orderId.equals(dto.getOrderId()))
-                .toList();
-    }
-    public OrderDetailDTO retrieveOrder(Long orderId) {
-        validateOrderExists(orderId);
-
-        return orderDatabase.get(orderId);
+        return dto;
     }
     private void validateOrderExists(Long orderId) {
-        if (! orderDatabase.containsKey(orderId)) {
+        if (! orderRepository.existsById(orderId)) {
             throw new IllegalArgumentException("OrderId: " + orderId + " does not exists!");
         }
 
@@ -68,23 +67,26 @@ public class OrderService {
     }
 
     public Long createOrder(OrderRequestDTO orderRequestDTO) {
-        OrderDetailDTO orderDetailDTO = mapToOrderDetailDTO(lastIndex.getAndIncrement(),
-                orderRequestDTO);
+        return orderRepository.save(mapToEntity(orderRequestDTO)).getOrderId();
+    }
+    private OrderEntity mapToEntity(OrderRequestDTO dto) {
+        OrderEntity oe = new OrderEntity();
 
-        orderDatabase.put(orderDetailDTO.getOrderId(), orderDetailDTO);
+        oe.setType(dto.getType());
 
-        return orderDetailDTO.getOrderId();
+
+        return oe;
     }
     public void updateOrder(Long orderId, OrderRequestDTO orderRequestDTO) {
         validateOrderExists(orderId);
 
-        OrderDetailDTO orderDetailDTO = orderDatabase.get(orderId);
+        OrderEntity orderEntity = orderRepository.findById(orderId).get();
 
-            orderDetailDTO.setOrdered(orderRequestDTO.isOrdered());
+            orderEntity.setOrdered(orderRequestDTO.isOrdered());
 
     }
     public void deleteOrder(Long orderId) {
-        orderDatabase.remove(orderId);
+        orderRepository.deleteById(orderId);
     }
 
 }
