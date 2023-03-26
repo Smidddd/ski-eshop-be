@@ -6,7 +6,7 @@ public class CustomerDetailDTO {
     private String lastName;
     private String password;
     private String email;
-    private Long phone;
+    private String phone;
     private String address;
     private String city;
     private String state;
@@ -52,11 +52,11 @@ public class CustomerDetailDTO {
         this.email = email;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
