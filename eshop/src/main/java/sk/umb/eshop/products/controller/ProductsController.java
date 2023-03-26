@@ -11,8 +11,12 @@ import java.util.List;
 @RestController
 public class ProductsController {
 
-
     private ProductsService productsService;
+
+    public ProductsController(ProductsService productsService) {
+        this.productsService = productsService;
+    }
+
     @GetMapping("/api/products")
     public List<ProductsDetailDTO> searchProducts() {
         System.out.println("Search products called.");

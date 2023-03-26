@@ -1,10 +1,10 @@
 package sk.umb.eshop.products.persistence.entity;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 import sk.umb.eshop.products.service.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 
 @Entity
 public class ProductsEntity {

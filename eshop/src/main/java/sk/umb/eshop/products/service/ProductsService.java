@@ -1,7 +1,6 @@
 package sk.umb.eshop.products.service;
 
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import sk.umb.eshop.products.persistence.entity.ProductsEntity;
 import sk.umb.eshop.products.persistence.repository.ProductsRepository;
