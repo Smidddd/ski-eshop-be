@@ -83,6 +83,7 @@ public class OrderService {
         OrderEntity orderEntity = orderRepository.findById(orderId).get();
 
             orderEntity.setOrdered(orderRequestDTO.isOrdered());
+        orderRepository.save(orderEntity);
 
     }
     public void deleteOrder(Long orderId) {
