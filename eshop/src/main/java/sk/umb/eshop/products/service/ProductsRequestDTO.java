@@ -6,6 +6,7 @@ public class ProductsRequestDTO {
     private Long price;
     private Long size;
     private Type type;
+    private String image;
 
     public String getName() {
         return name;
@@ -45,5 +46,13 @@ public class ProductsRequestDTO {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

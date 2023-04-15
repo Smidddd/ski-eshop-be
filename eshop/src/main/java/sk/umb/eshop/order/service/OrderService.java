@@ -3,10 +3,7 @@ package sk.umb.eshop.order.service;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 import sk.umb.eshop.order.persistance.entity.OrderEntity;
 import sk.umb.eshop.order.persistance.repository.OrderRepository;
@@ -73,7 +70,6 @@ public class OrderService {
         OrderEntity oe = new OrderEntity();
 
         oe.setType(dto.getType());
-
 
         return oe;
     }

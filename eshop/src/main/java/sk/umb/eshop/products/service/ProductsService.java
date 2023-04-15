@@ -35,6 +35,7 @@ public class ProductsService {
             dto.setPrice(pe.getPrice());
             dto.setSize(pe.getSize());
             dto.setType(pe.getType());
+            dto.setImage(pe.getImage());
 
             dtos.add(dto);
         }
@@ -55,6 +56,7 @@ public class ProductsService {
         dto.setPrice(productsEntity.getPrice());
         dto.setSize(productsEntity.getSize());
         dto.setType(productsEntity.getType());
+        dto.setImage(productsEntity.getImage());
 
         return dto;
     }
@@ -76,6 +78,7 @@ public class ProductsService {
         pe.setPrice(productsRequestDTO.getPrice());
         pe.setSize(productsRequestDTO.getSize());
         pe.setType(productsRequestDTO.getType());
+        pe.setImage(productsRequestDTO.getImage());
 
         return pe;
     }
@@ -101,6 +104,9 @@ public class ProductsService {
         }
         if (productsRequestDTO.getType() != null) {
             productsEntity.setType(productsRequestDTO.getType());
+        }
+        if (! Strings.isEmpty(productsRequestDTO.getImage())) {
+            productsEntity.setImage(productsRequestDTO.getImage());
         }
         productsRepository.save(productsEntity);
     }

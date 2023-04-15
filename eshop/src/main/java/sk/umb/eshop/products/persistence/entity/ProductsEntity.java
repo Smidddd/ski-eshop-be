@@ -16,6 +16,7 @@ public class ProductsEntity {
     private Long price;
     private Long size;
     private Type type;
+    private String image;
 
     public Long getId() {
         return id;
@@ -63,5 +64,13 @@ public class ProductsEntity {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
