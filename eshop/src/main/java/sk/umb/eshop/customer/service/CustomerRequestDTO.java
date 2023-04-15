@@ -10,6 +10,7 @@ public class CustomerRequestDTO {
     private String city;
     private String state;
     private Long zipCode;
+    private String role;
 
     public String getFirstName() {
         return firstName;
@@ -81,5 +82,13 @@ public class CustomerRequestDTO {
 
     public void setZipCode(Long zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

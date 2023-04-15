@@ -45,6 +45,7 @@ public class CustomerService {
             dto.setCity(ce.getCity());
             dto.setState(ce.getState());
             dto.setZipCode(ce.getZipCode());
+            dto.setRole(ce.getRole());
 
             dtos.add(dto);
         }
@@ -64,6 +65,7 @@ public class CustomerService {
         dto.setCity(customerEntity.getCity());
         dto.setState(customerEntity.getState());
         dto.setZipCode(customerEntity.getZipCode());
+        dto.setRole(customerEntity.getRole());
 
 
         return dto;
@@ -81,6 +83,7 @@ public class CustomerService {
         ce.setCity(dto.getCity());
         ce.setState(dto.getState());
         ce.setZipCode(dto.getZipCode());
+        ce.setRole(dto.getRole());
 
         return ce;
     }
@@ -124,6 +127,10 @@ public class CustomerService {
 
         if (customerRequestDTO.getZipCode() != null) {
             customerEntity.setZipCode(customerRequestDTO.getZipCode());
+        }
+
+        if (! Strings.isEmpty(customerRequestDTO.getRole())) {
+            customerEntity.setRole(customerRequestDTO.getRole());
         }
 
         customerRepository.save(customerEntity);
