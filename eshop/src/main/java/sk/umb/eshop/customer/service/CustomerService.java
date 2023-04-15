@@ -24,6 +24,11 @@ public class CustomerService {
         validateCustomerExists(customerId);
         return mapToDto(customerRepository.findById(customerId).get());
     }
+    public CustomerDetailDTO getCustomerByEmail(String customerEmail) {
+        //validateCustomerExists(customerId);
+        //return mapToDto(customerRepository.findById(customerId).get());
+        return mapToDto(customerRepository.findByEmail(customerEmail));
+    }
 
     public Long createCustomer(CustomerRequestDTO customerRequestDTO) {
         return customerRepository.save(mapToEntity(customerRequestDTO)).getId();

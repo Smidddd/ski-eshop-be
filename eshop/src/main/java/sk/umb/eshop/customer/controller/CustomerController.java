@@ -27,6 +27,11 @@ public class CustomerController {
         System.out.println("Get customer called.");
         return customerService.getCustomerById(customerId);
     }
+    @GetMapping("/api/customers/email/{customerEmail}")
+    public CustomerDetailDTO getCustomerByEmail(@PathVariable String customerEmail) {
+        System.out.println("Get customer by email called.");
+        return customerService.getCustomerByEmail(customerEmail);
+    }
 
     @PostMapping("/api/customers")
     public Long createCustomer(@RequestBody CustomerRequestDTO customerRequestDTO) {
