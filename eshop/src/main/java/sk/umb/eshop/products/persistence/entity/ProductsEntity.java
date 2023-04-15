@@ -1,10 +1,9 @@
 package sk.umb.eshop.products.persistence.entity;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import sk.umb.eshop.products.service.Type;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
+import java.util.Set;
 
 @Entity
 public class ProductsEntity {
@@ -14,7 +13,7 @@ public class ProductsEntity {
     private String name;
     private String description;
     private Long price;
-    private Long size;
+    private Set<Long> sizes;
     private Type type;
     private String image;
 
@@ -50,12 +49,12 @@ public class ProductsEntity {
         this.price = price;
     }
 
-    public Long getSize() {
-        return size;
+    public Set<Long> getSizes() {
+        return sizes;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
+    public void setSizes(Set<Long> sizes) {
+        this.sizes = sizes;
     }
 
     public Type getType() {

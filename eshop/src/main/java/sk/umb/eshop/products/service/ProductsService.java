@@ -33,7 +33,7 @@ public class ProductsService {
             dto.setName(pe.getName());
             dto.setDescription(pe.getDescription());
             dto.setPrice(pe.getPrice());
-            dto.setSize(pe.getSize());
+            dto.setSizes(pe.getSizes());
             dto.setType(pe.getType());
             dto.setImage(pe.getImage());
 
@@ -54,7 +54,7 @@ public class ProductsService {
         dto.setName(productsEntity.getName());
         dto.setDescription(productsEntity.getDescription());
         dto.setPrice(productsEntity.getPrice());
-        dto.setSize(productsEntity.getSize());
+        dto.setSizes(productsEntity.getSizes());
         dto.setType(productsEntity.getType());
         dto.setImage(productsEntity.getImage());
 
@@ -76,7 +76,7 @@ public class ProductsService {
         pe.setName(productsRequestDTO.getName());
         pe.setDescription(productsRequestDTO.getDescription());
         pe.setPrice(productsRequestDTO.getPrice());
-        pe.setSize(productsRequestDTO.getSize());
+        pe.setSizes(productsRequestDTO.getSizes());
         pe.setType(productsRequestDTO.getType());
         pe.setImage(productsRequestDTO.getImage());
 
@@ -99,8 +99,8 @@ public class ProductsService {
         if ( productsRequestDTO.getPrice() != null) {
             productsEntity.setPrice(productsRequestDTO.getPrice());
         }
-        if ( productsRequestDTO.getSize() != null) {
-            productsEntity.setSize(productsRequestDTO.getSize());
+        if ( productsRequestDTO.getSizes() != null) {
+            productsEntity.setSizes(productsRequestDTO.getSizes());
         }
         if (productsRequestDTO.getType() != null) {
             productsEntity.setType(productsRequestDTO.getType());
