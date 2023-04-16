@@ -141,6 +141,19 @@ public class CustomerService {
         customerRepository.save(customerEntity);
     }
 
+    public void updateCustomerPassword(Long customerId, String password) {
+        validateCustomerExists(customerId);
+
+        CustomerEntity customerEntity = customerRepository.findById(customerId).get();
+
+        if (! Strings.isEmpty(password)){
+            customerEntity.setPassword(password);
+        }
+
+
+        customerRepository.save(customerEntity);
+    }
+
     private void validateCustomerExists(Long customerId) {
         if (! customerRepository.existsById(customerId)) {
             throw new IllegalArgumentException("CustomerId: " + customerId + " does not exists!");
