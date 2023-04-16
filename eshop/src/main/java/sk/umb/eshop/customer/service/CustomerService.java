@@ -25,8 +25,6 @@ public class CustomerService {
         return mapToDto(customerRepository.findById(customerId).get());
     }
     public CustomerDetailDTO getCustomerByEmail(String customerEmail) {
-        //validateCustomerExists(customerId);
-        //return mapToDto(customerRepository.findById(customerId).get());
         return mapToDto(customerRepository.findByEmail(customerEmail));
     }
 
@@ -137,19 +135,6 @@ public class CustomerService {
         if (! Strings.isEmpty(customerRequestDTO.getRole())) {
             customerEntity.setRole(customerRequestDTO.getRole());
         }
-
-        customerRepository.save(customerEntity);
-    }
-
-    public void updateCustomerPassword(Long customerId, String password) {
-        validateCustomerExists(customerId);
-
-        CustomerEntity customerEntity = customerRepository.findById(customerId).get();
-
-        if (! Strings.isEmpty(password)){
-            customerEntity.setPassword(password);
-        }
-
 
         customerRepository.save(customerEntity);
     }

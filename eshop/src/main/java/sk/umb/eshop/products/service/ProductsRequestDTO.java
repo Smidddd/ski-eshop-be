@@ -1,12 +1,13 @@
 package sk.umb.eshop.products.service;
 
+import java.util.List;
 import java.util.Set;
 
 public class ProductsRequestDTO {
     private String name;
     private String description;
     private Long price;
-    private Set<Long> sizes;
+    private List<Long> sizes;
     private Type type;
     private String image;
 
@@ -34,11 +35,11 @@ public class ProductsRequestDTO {
         this.price = price;
     }
 
-    public Set<Long> getSizes() {
+    public List<Long> getSizes() {
         return sizes;
     }
 
-    public void setSizes(Set<Long> sizes) {
+    public void setSizes(List<Long> sizes) {
         this.sizes = sizes;
     }
 

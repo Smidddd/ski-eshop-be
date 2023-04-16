@@ -45,12 +45,6 @@ public class CustomerController {
         customerService.updateCustomer(customerId, customerRequestDTO);
     }
 
-    @PutMapping("/api/customers/pass/{customerId}/{password}")
-    public void updateCustomerPass(@PathVariable Long customerId, @PathVariable String password) {
-        System.out.println("Update customer called: ID = " + customerId);
-        customerService.updateCustomerPassword(customerId, password);
-    }
-
     @DeleteMapping("/api/customers/{customerId}")
     public void deleteCustomer(@PathVariable Long customerId) {
         System.out.println("Delete customer called: ID = " + customerId);
