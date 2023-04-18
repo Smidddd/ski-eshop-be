@@ -1,6 +1,7 @@
 package sk.umb.eshop.products.persistence.entity;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 import sk.umb.eshop.products.service.Type;
 
 import java.util.List;

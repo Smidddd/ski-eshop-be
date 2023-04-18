@@ -10,8 +10,12 @@ import java.util.List;
 
 @RestController
 public class OrderController {
-    @Autowired
+
     private OrderService orderService;
+
+    public OrderController(OrderService orderService){
+        this.orderService = orderService;
+    }
 
     @GetMapping("/api/order")
     public List <OrderDetailDTO> listOrders(@RequestParam(required = false) Long orderId){
@@ -31,9 +35,9 @@ public class OrderController {
         return orderService.createOrder(orderRequestDTO);
     }
     @PutMapping("/api/order/{orderId}")
-    public void updateOrder(@PathVariable Long orderId, @RequestBody OrderRequestDTO orderRequestDTO){
+    public void updateOrder(@PathVariable Long orderId){
         System.out.println("Update order called ID: "+ orderId);
-        orderService.updateOrder(orderId, orderRequestDTO);
+        orderService.updateOrder(orderId);
     }
     @DeleteMapping("/api/order/{orderId}")
     public void deleteOrder(@PathVariable Long orderId){

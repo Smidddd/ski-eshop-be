@@ -2,6 +2,8 @@ package sk.umb.eshop.products.service;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import sk.umb.eshop.inventory.persistence.entity.InventoryEntity;
+import sk.umb.eshop.inventory.persistence.repository.InventoryRepository;
 import sk.umb.eshop.products.persistence.entity.ProductsEntity;
 import sk.umb.eshop.products.persistence.repository.ProductsRepository;
 
@@ -12,9 +14,11 @@ import java.util.List;
 public class ProductsService {
 
     private final ProductsRepository productsRepository;
+    private final InventoryRepository inventoryRepository;
 
-    public ProductsService(ProductsRepository productsRepository) {
+    public ProductsService(ProductsRepository productsRepository, InventoryRepository inventoryRepository) {
         this.productsRepository = productsRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     public List<ProductsDetailDTO> getAllProducts() {
@@ -67,7 +71,20 @@ public class ProductsService {
     }
 
     public Long createProduct(ProductsRequestDTO productsRequestDTO) {
-        return productsRepository.save(mapToEntity(productsRequestDTO)).getId();
+        Long id = productsRepository.save(mapToEntity(productsRequestDTO)).getId();
+        fillInventory(productsRequestDTO, id);
+        return id;
+    }
+    public void fillInventory(ProductsRequestDTO productsRequestDTO, Long id){
+        for (int i = 0;i< productsRequestDTO.getSizes().size(); i++){
+            InventoryEntity ie = new InventoryEntity();
+
+            ie.setProductId(productsRepository.findById(id).get());
+            ie.setSize(productsRequestDTO.getSizes().get(i));
+            ie.setAvailable(true);
+
+            inventoryRepository.save(ie);
+        }
     }
 
     private ProductsEntity mapToEntity(ProductsRequestDTO productsRequestDTO) {
@@ -109,6 +126,8 @@ public class ProductsService {
             productsEntity.setImage(productsRequestDTO.getImage());
         }
         productsRepository.save(productsEntity);
+        inventoryRepository.deleteAllByProdId(productsEntity);
+        fillInventory(productsRequestDTO, productId);
     }
 
     public void deleteProduct(Long productId) {
