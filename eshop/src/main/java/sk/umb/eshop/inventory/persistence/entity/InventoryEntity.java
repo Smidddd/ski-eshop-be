@@ -1,6 +1,8 @@
 package sk.umb.eshop.inventory.persistence.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import sk.umb.eshop.products.persistence.entity.ProductsEntity;
 
 @Entity
@@ -8,7 +10,8 @@ public class InventoryEntity {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne()
+
+    @ManyToOne
     @JoinColumn(name = "prod_id")
     private ProductsEntity productId;
     private Long size;

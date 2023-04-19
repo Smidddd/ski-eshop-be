@@ -28,9 +28,14 @@ public class InventoryController {
         System.out.println("Get item called.");
         return inventoryService.getItemById(inventoryId);
     }
+    @GetMapping("/api/inventory/byId")
+    public List<InventoryDetailDTO> getItemsByIds(@RequestParam(name = "ids") Long[] ids) {
+        System.out.println("Get items by ids called.");
+        return inventoryService.getItemsByIds(ids);
+    }
     @GetMapping("/api/inventory/{productId}/{size}")
     public InventoryDetailDTO getItem(@PathVariable Long productId, @PathVariable Long size) {
-        System.out.println("Get item called.");
+        System.out.println("Get item by prodId and size called.");
         return inventoryService.getItemBySize(productId, size);
     }
 

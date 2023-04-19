@@ -22,4 +22,7 @@ public interface InventoryRepository extends CrudRepository<InventoryEntity, Lon
 
     @Query("SELECT t FROM InventoryEntity t WHERE t.productId=:product_id AND t.size=:size")
     InventoryEntity findItemBySize(@Param("product_id") ProductsEntity product_id, @Param("size") Long size);
+
+    @Query("SELECT t FROM InventoryEntity t WHERE t.id IN (:ids) ")
+    List<InventoryEntity> findItemsByIds(@Param("ids") List<ProductsEntity> ids);
 }

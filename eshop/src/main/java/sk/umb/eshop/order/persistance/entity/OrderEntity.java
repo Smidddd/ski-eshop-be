@@ -1,6 +1,8 @@
 package sk.umb.eshop.order.persistance.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import sk.umb.eshop.customer.persistence.entity.CustomerEntity;
 import sk.umb.eshop.customer.service.CustomerDetailDTO;
 import sk.umb.eshop.inventory.persistence.entity.InventoryEntity;

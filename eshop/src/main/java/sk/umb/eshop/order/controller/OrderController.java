@@ -29,6 +29,12 @@ public class OrderController {
 
         return orderService.getOrderbyId(orderId);
     }
+    @GetMapping("/api/order/customer/{customerId}")
+    public OrderDetailDTO getOrderByCustomerId(@PathVariable Long customerId){
+        System.out.println("Get order by customer id: "+customerId+" called");
+
+        return orderService.getOrderByCustomerId(customerId);
+    }
     @PostMapping("/api/order")
     public Long createOrder(@RequestBody OrderRequestDTO orderRequestDTO){
         System.out.println("Create order called");

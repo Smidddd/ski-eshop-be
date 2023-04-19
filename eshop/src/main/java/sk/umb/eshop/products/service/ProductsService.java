@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import sk.umb.eshop.inventory.persistence.entity.InventoryEntity;
 import sk.umb.eshop.inventory.persistence.repository.InventoryRepository;
+import sk.umb.eshop.inventory.service.InventoryService;
 import sk.umb.eshop.products.persistence.entity.ProductsEntity;
 import sk.umb.eshop.products.persistence.repository.ProductsRepository;
 
@@ -15,10 +16,12 @@ public class ProductsService {
 
     private final ProductsRepository productsRepository;
     private final InventoryRepository inventoryRepository;
+    private final InventoryService inventoryService;
 
-    public ProductsService(ProductsRepository productsRepository, InventoryRepository inventoryRepository) {
+    public ProductsService(ProductsRepository productsRepository, InventoryRepository inventoryRepository, InventoryService inventoryService) {
         this.productsRepository = productsRepository;
         this.inventoryRepository = inventoryRepository;
+        this.inventoryService = inventoryService;
     }
 
     public List<ProductsDetailDTO> getAllProducts() {
@@ -131,6 +134,7 @@ public class ProductsService {
     }
 
     public void deleteProduct(Long productId) {
+        inventoryRepository.deleteAllByProdId(inventoryService.productDtoToEntity(getProductById(productId)));
         productsRepository.deleteById(productId);
     }
 }

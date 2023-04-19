@@ -7,6 +7,7 @@ import java.util.List;
 
 import sk.umb.eshop.customer.persistence.entity.CustomerEntity;
 import sk.umb.eshop.customer.service.CustomerDetailDTO;
+import sk.umb.eshop.customer.service.CustomerService;
 import sk.umb.eshop.inventory.persistence.entity.InventoryEntity;
 import sk.umb.eshop.inventory.service.InventoryDetailDTO;
 import sk.umb.eshop.inventory.service.InventoryService;
@@ -19,10 +20,12 @@ import sk.umb.eshop.products.service.ProductsDetailDTO;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final InventoryService inventoryService;
+    private final CustomerService customerService;
 
-    public OrderService(OrderRepository orderRepository, InventoryService inventoryService) {
+    public OrderService(OrderRepository orderRepository, InventoryService inventoryService, CustomerService customerService) {
         this.orderRepository = orderRepository;
         this.inventoryService = inventoryService;
+        this.customerService = customerService;
     }
 
     public List<OrderDetailDTO> getAllOrders() {
@@ -31,6 +34,10 @@ public class OrderService {
     public OrderDetailDTO getOrderbyId(Long orderId) {
         validateOrderExists(orderId);
         return mapToDto(orderRepository.findById(orderId).get());
+    }
+    public OrderDetailDTO getOrderByCustomerId(Long customerId) {
+        CustomerDetailDTO dto = customerService.getCustomerById(customerId);
+        return mapToDto(orderRepository.findOrderByCustomerId(customerDtoToEntity(dto)));
     }
     private List<OrderDetailDTO> mapToDto(List<OrderEntity> orderEntities) {
         List<OrderDetailDTO> dtos = new ArrayList<>();

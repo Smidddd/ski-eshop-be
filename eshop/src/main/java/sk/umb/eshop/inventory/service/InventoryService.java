@@ -33,6 +33,14 @@ public class InventoryService {
         return mapToDto(inventoryRepository.findItemBySize(productsRepository.findById(productId).get(), size));
     }
 
+    public List<InventoryDetailDTO> getItemsByIds(Long ids[]){
+        List<ProductsEntity> idEntities = new ArrayList<>();
+        for (int i=0;i<ids.length;i++){
+            idEntities.add(productsRepository.findById(ids[i]).get());
+        }
+        return mapToDto(inventoryRepository.findItemsByIds(idEntities));
+    }
+
     public Long createItem(InventoryRequestDTO inventoryRequestDTO) {
         return inventoryRepository.save(mapToEntity(inventoryRequestDTO)).getId();
     }
