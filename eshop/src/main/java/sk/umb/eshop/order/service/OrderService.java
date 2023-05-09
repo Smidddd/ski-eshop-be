@@ -39,6 +39,10 @@ public class OrderService {
         CustomerDetailDTO dto = customerService.getCustomerById(customerId);
         return mapToDto(orderRepository.findOrderByCustomerId(customerDtoToEntity(dto)));
     }
+    public List<OrderDetailDTO> getOrdersByCustomerId(Long customerId) {
+        CustomerDetailDTO dto = customerService.getCustomerById(customerId);
+        return mapToDto(orderRepository.findOrdersByCustomerId(customerDtoToEntity(dto)));
+    }
     private List<OrderDetailDTO> mapToDto(List<OrderEntity> orderEntities) {
         List<OrderDetailDTO> dtos = new ArrayList<>();
         for (OrderEntity oe : orderEntities) {

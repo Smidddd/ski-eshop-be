@@ -16,6 +16,8 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<OrderEntity, Long> {
     @Override
     List<OrderEntity> findAll();
-    @Query("SELECT t FROM OrderEntity t WHERE t.customer_ID=:customerId")
+    @Query("SELECT t FROM OrderEntity t WHERE t.customer_ID=:customerId AND t.ordered = false")
     OrderEntity findOrderByCustomerId(@Param("customerId") CustomerEntity customerId);
+    @Query("SELECT t FROM OrderEntity t WHERE t.customer_ID=:customerId")
+    List<OrderEntity> findOrdersByCustomerId(@Param("customerId") CustomerEntity customerId);
 }
