@@ -34,11 +34,13 @@ public class InventoryService {
     }
 
     public List<InventoryDetailDTO> getItemsByIds(Long ids[]){
-        List<ProductsEntity> idEntities = new ArrayList<>();
+        List<InventoryEntity> idEntities = new ArrayList<>();
+        System.out.println();
         for (int i=0;i<ids.length;i++){
-            idEntities.add(productsRepository.findById(ids[i]).get());
+            System.out.println(ids[i]);
+            idEntities.add(inventoryRepository.findById(ids[i]).get());
         }
-        return mapToDto(inventoryRepository.findItemsByIds(idEntities));
+        return mapToDto(idEntities);
     }
 
     public Long createItem(InventoryRequestDTO inventoryRequestDTO) {

@@ -5,6 +5,7 @@ import sk.umb.eshop.customer.service.CustomerDetailDTO;
 import sk.umb.eshop.customer.service.CustomerRequestDTO;
 import sk.umb.eshop.customer.service.CustomerService;
 import sk.umb.eshop.inventory.service.InventoryDetailDTO;
+import sk.umb.eshop.inventory.service.InventoryIdsDTO;
 import sk.umb.eshop.inventory.service.InventoryRequestDTO;
 import sk.umb.eshop.inventory.service.InventoryService;
 
@@ -28,10 +29,11 @@ public class InventoryController {
         System.out.println("Get item called.");
         return inventoryService.getItemById(inventoryId);
     }
-    @GetMapping("/api/inventory/byId")
-    public List<InventoryDetailDTO> getItemsByIds(@RequestParam(name = "ids") Long[] ids) {
+    @PostMapping("/api/inventory/byId")
+    public List<InventoryDetailDTO> getItemsByIds(@RequestBody() InventoryIdsDTO inventoryIdsDTO) {
         System.out.println("Get items by ids called.");
-        return inventoryService.getItemsByIds(ids);
+
+        return inventoryService.getItemsByIds(inventoryIdsDTO.getIds());
     }
     @GetMapping("/api/inventory/{productId}/{size}")
     public InventoryDetailDTO getItem(@PathVariable Long productId, @PathVariable Long size) {
