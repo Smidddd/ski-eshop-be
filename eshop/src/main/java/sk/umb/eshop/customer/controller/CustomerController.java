@@ -32,6 +32,11 @@ public class CustomerController {
         System.out.println("Get customer by email called.");
         return customerService.getCustomerByEmail(customerEmail);
     }
+    @GetMapping("/api/customers/verify/{id}/{password}")
+    public boolean getCustomerByEmail(@PathVariable Long id, @PathVariable String password) {
+        System.out.println("Verify password called.");
+        return customerService.verifyHash(password, id);
+    }
 
     @PostMapping("/api/customers")
     public Long createCustomer(@RequestBody CustomerRequestDTO customerRequestDTO) {

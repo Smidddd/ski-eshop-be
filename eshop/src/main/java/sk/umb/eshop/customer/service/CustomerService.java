@@ -4,12 +4,15 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import sk.umb.eshop.customer.persistence.entity.CustomerEntity;
 import sk.umb.eshop.customer.persistence.repository.CustomerRepository;
+import org.mindrot.jbcrypt.*;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+
+    private final int logRounds = 10;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -76,10 +79,9 @@ public class CustomerService {
 
     private CustomerEntity mapToEntity(CustomerRequestDTO dto) {
         CustomerEntity ce = new CustomerEntity();
-
         ce.setFirstName(dto.getFirstName());
         ce.setLastName(dto.getLastName());
-        ce.setPassword(dto.getPassword());
+        ce.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt(logRounds)));
         ce.setEmail(dto.getEmail());
         ce.setPhone(dto.getPhone());
         ce.setAddress(dto.getAddress());
@@ -105,7 +107,7 @@ public class CustomerService {
         }
 
         if (! Strings.isEmpty(customerRequestDTO.getPassword())) {
-            customerEntity.setPassword(customerRequestDTO.getPassword());
+            customerEntity.setPassword(BCrypt.hashpw(customerRequestDTO.getPassword(), BCrypt.gensalt(logRounds)) );
         }
 
         if (! Strings.isEmpty(customerRequestDTO.getEmail())) {
@@ -145,6 +147,11 @@ public class CustomerService {
         }
     }
 
+    public boolean verifyHash(String password, Long id) {
+        String hash = customerRepository.findById(id).get().getPassword();
+        System.out.println(BCrypt.checkpw(password, hash));
+        return BCrypt.checkpw(password, hash);
+    }
     public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
