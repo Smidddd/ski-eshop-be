@@ -8,6 +8,7 @@ import sk.umb.eshop.customer.service.CustomerDetailDTO;
 import sk.umb.eshop.inventory.persistence.entity.InventoryEntity;
 import sk.umb.eshop.order.service.Type;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,7 @@ public class OrderEntity {
     @JoinColumn()
     private CustomerEntity customer_ID;
     private Type type;
+    private Timestamp date = new Timestamp(System.currentTimeMillis());
     private boolean ordered;
     @ManyToMany
     @JoinTable(name="order_products",
@@ -27,6 +29,13 @@ public class OrderEntity {
             inverseJoinColumns=@JoinColumn(name="item_id"))
     private List<InventoryEntity> orderedProducts;
 
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
 
     public Long getOrderId() {
         return orderId;

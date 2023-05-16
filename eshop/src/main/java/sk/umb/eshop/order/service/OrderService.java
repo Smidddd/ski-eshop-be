@@ -53,19 +53,21 @@ public class OrderService {
             dto.setType(oe.getType());
             dto.setOrdered(oe.isOrdered());
             dto.setOrderedProducts(inventoryEntityToDto(oe.getOrderedProducts()));
+            dto.setDate(oe.getDate());
             dtos.add(dto);
         }
 
         return dtos;
     }
-    private OrderDetailDTO mapToDto(OrderEntity productsEntity) {
+    private OrderDetailDTO mapToDto(OrderEntity orderEntity) {
         OrderDetailDTO dto = new OrderDetailDTO();
 
-        dto.setOrderId(productsEntity.getOrderId());
-        dto.setCustomer_ID(customerEntityToDto(productsEntity.getCustomer_ID()));
-        dto.setType(productsEntity.getType());
-        dto.setOrdered(productsEntity.isOrdered());
-        dto.setOrderedProducts(inventoryEntityToDto(productsEntity.getOrderedProducts()));
+        dto.setOrderId(orderEntity.getOrderId());
+        dto.setCustomer_ID(customerEntityToDto(orderEntity.getCustomer_ID()));
+        dto.setType(orderEntity.getType());
+        dto.setOrdered(orderEntity.isOrdered());
+        dto.setOrderedProducts(inventoryEntityToDto(orderEntity.getOrderedProducts()));
+        dto.setDate(orderEntity.getDate());
 
         return dto;
     }

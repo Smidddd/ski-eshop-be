@@ -3,6 +3,7 @@ package sk.umb.eshop.order.service;
 import sk.umb.eshop.customer.service.CustomerDetailDTO;
 import sk.umb.eshop.inventory.service.InventoryDetailDTO;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class OrderDetailDTO {
@@ -11,7 +12,17 @@ public class OrderDetailDTO {
     private Type type;
     private boolean ordered;
 
+    private Timestamp date;
+
     private List<InventoryDetailDTO> orderedProducts;
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
 
     public Long getOrderId() {
         return orderId;
