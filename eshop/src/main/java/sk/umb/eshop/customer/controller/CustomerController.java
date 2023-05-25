@@ -32,6 +32,11 @@ public class CustomerController {
         System.out.println("Get customer by email called.");
         return customerService.getCustomerByEmail(customerEmail);
     }
+    @GetMapping("/api/customers/check/{customerEmail}")
+    public boolean checkEmail(@PathVariable String customerEmail) {
+        System.out.println("Check email called.");
+        return customerService.checkEmail(customerEmail);
+    }
     @GetMapping("/api/customers/verify/{id}/{password}")
     public boolean getCustomerByEmail(@PathVariable Long id, @PathVariable String password) {
         System.out.println("Verify password called.");

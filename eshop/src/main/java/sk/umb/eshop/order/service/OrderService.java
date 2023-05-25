@@ -1,5 +1,11 @@
 package sk.umb.eshop.order.service;
 
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,11 +19,13 @@ import sk.umb.eshop.inventory.service.InventoryDetailDTO;
 import sk.umb.eshop.inventory.service.InventoryService;
 import sk.umb.eshop.order.persistance.entity.OrderEntity;
 import sk.umb.eshop.order.persistance.repository.OrderRepository;
-import sk.umb.eshop.products.persistence.entity.ProductsEntity;
-import sk.umb.eshop.products.service.ProductsDetailDTO;
+
+
 
 @Service
 public class OrderService {
+    @Autowired
+    private JavaMailSender mailSender;
     private final OrderRepository orderRepository;
     private final InventoryService inventoryService;
     private final CustomerService customerService;
@@ -26,6 +34,44 @@ public class OrderService {
         this.orderRepository = orderRepository;
         this.inventoryService = inventoryService;
         this.customerService = customerService;
+    }
+
+    public void sendEmail(Long orderId){
+        OrderEntity order = orderRepository.findById(orderId).get();
+        /*SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("eshopski16@gmail.com");
+        message.setTo(order.getCustomer_ID().getEmail());
+        message.setText("Thank you for your order: "+order.getOrderId()+"");
+        message.setSubject("Order confirmation");
+
+        mailSender.send(message);
+    */
+        MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                String products = "";
+                int totalPrice = 0;
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                message.setFrom("eshopski16@gmail.com");
+                message.setTo(order.getCustomer_ID().getEmail());
+                message.setSubject("Order confirmation: "+order.getOrderId());
+                for (int i=0; i<order.getOrderedProducts().size();i++){
+                    products+="<div style=\"display: flex;text-align: center:\">\n" +
+                            "          <img style=\"justify-content: center;\" src="+order.getOrderedProducts().get(i).getProductId().getImage()+"\n" +
+                            "               alt=\"ski boots\" style=\"width: 300px; height: 250px\" />\n" +
+                            "          <div style=\"justify-content: center;\">\n" +
+                            "            <b class=\"fa-solid \" >"+order.getOrderedProducts().get(i).getProductId().getName()+"</b><br>\n" +
+                            "            <p class=\"text\" >"+order.getOrderedProducts().get(i).getProductId().getDescription()+"</p>\n" +
+                            "            <b>Price:</b>"+order.getOrderedProducts().get(i).getProductId().getPrice()+"<b style=\"margin-left: 0.5%;color: black\">€</b>\n<br> <hr>" +
+                            "          </div>\n" +
+                            "  </div>";
+                    totalPrice+= order.getOrderedProducts().get(i).getProductId().getPrice();
+                }
+                message.setText("<h1>Thank you for your order !</h1><br> <b>Here are your products:</b><br>"+products+"<br>Your total price is: "+totalPrice+" €<br>Your order is being prepared, we will let you know when its ready!", true);
+            }
+        };
+
+        mailSender.send(messagePreparator);
+        System.out.println("Mail Sent Successfully...");
     }
 
     public List<OrderDetailDTO> getAllOrders() {

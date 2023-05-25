@@ -29,6 +29,13 @@ public class OrderController {
 
         return orderService.getOrderbyId(orderId);
     }
+    @PostMapping("/api/order/{orderId}")
+    public Long sendConfirmationEmail(@PathVariable Long orderId){
+        System.out.println("Send email of order called: "+orderId);
+
+        orderService.sendEmail(orderId);
+        return orderId;
+    }
     @GetMapping("/api/order/customer/{customerId}")
     public OrderDetailDTO getOrderByCustomerId(@PathVariable Long customerId){
         System.out.println("Get order by customer id: "+customerId+" called");

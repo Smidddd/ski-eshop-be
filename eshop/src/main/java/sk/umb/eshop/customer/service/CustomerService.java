@@ -30,7 +30,13 @@ public class CustomerService {
     public CustomerDetailDTO getCustomerByEmail(String customerEmail) {
         return mapToDto(customerRepository.findByEmail(customerEmail));
     }
-
+    public boolean checkEmail(String customerEmail) {
+        if(customerRepository.findByEmail(customerEmail)==null){
+            return true;
+        } else {
+            return false;
+        }
+    }
     public Long createCustomer(CustomerRequestDTO customerRequestDTO) {
         return customerRepository.save(mapToEntity(customerRequestDTO)).getId();
     }
