@@ -1,6 +1,27 @@
 version: "3.3"
 
 services:
+  frontend:
+    image: eshop-frontend
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 80:80
+  backend:
+    image: 'eshop-backend'
+    build:
+      context: .
+    container_name: eshop-backend
+    depends_on:
+      - library
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://library:5432/eshop
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
   library:
     restart: always
     image: sameersbn/postgresql:10-2
