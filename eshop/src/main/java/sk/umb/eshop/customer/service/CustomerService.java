@@ -1,6 +1,9 @@
 package sk.umb.eshop.customer.service;
 
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import sk.umb.eshop.customer.persistence.entity.CustomerEntity;
 import sk.umb.eshop.customer.persistence.repository.CustomerRepository;
@@ -17,16 +20,17 @@ public class CustomerService {
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
-
+    @Cacheable(cacheNames = "customers")
     public List<CustomerDetailDTO> getAllCustomers() {
         return mapToDto(customerRepository.findAll());
     }
 
-
+    @Cacheable(cacheNames = "customer", key = "#id", unless = "#result == null")
     public CustomerDetailDTO getCustomerById(Long customerId) {
         validateCustomerExists(customerId);
         return mapToDto(customerRepository.findById(customerId).get());
     }
+    @Cacheable(cacheNames = "customer", key = "#email", unless = "#result == null")
     public CustomerDetailDTO getCustomerByEmail(String customerEmail) {
         return mapToDto(customerRepository.findByEmail(customerEmail));
     }
@@ -37,6 +41,7 @@ public class CustomerService {
             return false;
         }
     }
+    @CacheEvict(cacheNames = "customers", allEntries = true)
     public Long createCustomer(CustomerRequestDTO customerRequestDTO) {
         return customerRepository.save(mapToEntity(customerRequestDTO)).getId();
     }
@@ -98,7 +103,7 @@ public class CustomerService {
 
         return ce;
     }
-
+    @CacheEvict(cacheNames = "customers", allEntries = true)
     public void updateCustomer(Long customerId, CustomerRequestDTO customerRequestDTO) {
         validateCustomerExists(customerId);
 
@@ -158,6 +163,8 @@ public class CustomerService {
         System.out.println(BCrypt.checkpw(password, hash));
         return BCrypt.checkpw(password, hash);
     }
+    @Caching(evict = { @CacheEvict(cacheNames = "customer", key = "#id"),
+            @CacheEvict(cacheNames = "customers", allEntries = true) })
     public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
