@@ -2,12 +2,12 @@ version: "3.3"
 
 services:
   frontend:
-    image: eshop-frontend
+    image: 'eshop-frontend'
     build: .
     environment:
       NODE_ENV: production
     ports:
-      - 80:80
+      - "80:80"
   backend:
     image: 'eshop-backend'
     build:
