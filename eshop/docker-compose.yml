@@ -13,12 +13,12 @@ services:
     networks:
       - rabbitmq_go_net
   frontend:
-    image: eshop-frontend
+    image: 'eshop-frontend'
     build: .
     environment:
       NODE_ENV: production
     ports:
-      - 80:80
+      - "80:80"
   backend:
     image: 'eshop-backend'
     build:
