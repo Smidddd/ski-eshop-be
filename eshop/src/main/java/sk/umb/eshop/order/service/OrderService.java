@@ -38,14 +38,6 @@ public class OrderService {
 
     public void sendEmail(Long orderId){
         OrderEntity order = orderRepository.findById(orderId).get();
-        /*SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("eshopski16@gmail.com");
-        message.setTo(order.getCustomer_ID().getEmail());
-        message.setText("Thank you for your order: "+order.getOrderId()+"");
-        message.setSubject("Order confirmation");
-
-        mailSender.send(message);
-    */
         MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 String products = "";

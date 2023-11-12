@@ -1,7 +1,9 @@
 package sk.umb.eshop.order.controller;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sk.umb.eshop.config.RabbitMQConfig;
 import sk.umb.eshop.order.service.OrderDetailDTO;
 import sk.umb.eshop.order.service.OrderRequestDTO;
 import sk.umb.eshop.order.service.OrderService;
@@ -11,10 +13,13 @@ import java.util.List;
 @RestController
 public class OrderController {
 
+    private final RabbitTemplate rabbitTemplate;
+
     private OrderService orderService;
 
-    public OrderController(OrderService orderService){
+    public OrderController(OrderService orderService, RabbitTemplate rabbitTemplate){
         this.orderService = orderService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping("/api/order")
@@ -49,9 +54,10 @@ public class OrderController {
         return orderService.getOrdersByCustomerId(customerId);
     }
     @PostMapping("/api/order")
-    public Long createOrder(@RequestBody OrderRequestDTO orderRequestDTO){
+    public long createOrder(@RequestBody OrderRequestDTO orderRequestDTO){
         System.out.println("Create order called");
-        return orderService.createOrder(orderRequestDTO);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.QK_EXAMPLE_QUEUE, orderRequestDTO);
+        return 1;
     }
     @PutMapping("/api/order/{orderId}")
     public void updateOrder(@PathVariable Long orderId){
